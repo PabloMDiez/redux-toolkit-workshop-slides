@@ -323,3 +323,27 @@ body {
         background-color: $backgroundColor;
     }
 }
+
+
+/*********************************************
+ * CUSTOM TEMPLATE
+ *********************************************/
+.presented-by {
+	display: flex;
+	gap: 0.5ch;
+	justify-content: center;
+	align-items: center;
+
+	span.presenter-name {
+		font-weight: bold;
+	}
+
+	img {
+		border-radius: 100%;
+		border-width: medium !important;
+		display: inline-block;
+		margin: 0 !important;
+		vertical-align: middle;
+		width: 3ch;
+	}
+}

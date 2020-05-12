@@ -275,6 +275,24 @@ body {
   .backgrounds {
     background-color: #222; } }
 
+/*********************************************
+ * CUSTOM TEMPLATE
+ *********************************************/
+.presented-by {
+  display: flex;
+  gap: 0.5ch;
+  justify-content: center;
+  align-items: center; }
+  .presented-by span.presenter-name {
+    font-weight: bold; }
+  .presented-by img {
+    border-radius: 100%;
+    border-width: medium !important;
+    display: inline-block;
+    margin: 0 !important;
+    vertical-align: middle;
+    width: 3ch; }
+
 .reveal p {
   font-weight: 300;
   text-shadow: 1px 1px #222; }
