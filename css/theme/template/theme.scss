@@ -347,3 +347,33 @@ body {
 		width: 3ch;
 	}
 }
+
+blockquote {
+	padding: 32px !important;
+	border-radius: 8px;
+}
+
+.fragment-stack {
+	.fragment {
+		&:not(.current-fragment) {
+			display: none !important;
+		}
+	}
+}
+
+.checkbox-example {
+	input[type=checkbox] {
+		height: 5ch;
+		width: 5ch;
+	}
+}
+
+code {
+	font-family: "Fira Code", monospace !important;
+	line-height: 1.3em;
+	font-size: 0.6em;
+	.hljs-ln-line {
+		tab-size: 2;
+		-moz-tab-size: 2;
+	}
+}
