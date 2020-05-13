@@ -316,3 +316,26 @@ code {
   code .hljs-ln-line {
     tab-size: 2;
     -moz-tab-size: 2; }
+
+img.inset {
+  border-radius: 8px !important;
+  border-width: 0px !important; }
+
+.browser {
+  background: url("/img/browser-icons.png") no-repeat #F5F5F5;
+  background-size: 69px 28px;
+  background-position: 6px 6px;
+  padding: 40px 0 0 0;
+  width: 75%;
+  height: 600px;
+  max-height: 50vh;
+  display: inline-block;
+  border-radius: 8px 8px 2px 2px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
+  .browser iframe {
+    background: white;
+    border-radius: 2px;
+    max-height: 100% !important;
+    max-width: 100% !important;
+    width: calc(100% - 2px);
+    height: calc(100% - 2px); }
