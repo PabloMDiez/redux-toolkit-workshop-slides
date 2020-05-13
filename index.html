@@ -11,7 +11,7 @@
 		<link rel="stylesheet" href="css/theme/moon.css">
 
 		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/monokai.css">
+		<link rel="stylesheet" href="lib/css/monokai-sublime.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -26,44 +26,90 @@
 		<div class="reveal">
 			<div class="slides">
 				<section>
-					<div data-markdown>
-						# State Management with Redux in 2020
-						## An introduction to Redux Toolkit
-					</div>
+					<h1>State Management with Redux in 2020</h1>
+					<h2>An introduction to Redux Toolkit</h2>
 					<div class="presented-by">
 						<span>
 							Presented by
 						</span>
+
 						<img src="img/pablin_avatar.jpg" />
+
 						<span class="presenter-name">
 							Pablin
 						</span>
 					</div>
 				</section>
-				<section data-markdown>
-					## What's state management?
-					Test
+				<section>
+					<h2>What is a state?</h2>
+					<blockquote>
+						A state represents a snapshot of a system, with the outcome of all the actions taken since the initial load.
+					</blockquote>
+				</section>
+				<section>
+					<h2>What is a state?</h2>
+					Example: a checkbox
+					<br />
+					<blockquote class="checkbox-example">
+						<h4 id="checkbox-example-heading">Initial state</h4>
+						<input id="checkbox-example" type="checkbox">
+						<label for="checkbox-example">I have read the T&C.</label>
+						<br><br>
+						<code id="checkbox-example-code">state: unchecked</code>
+					</blockquote>
+				</section>
+				<section>
+					<div>
+						<h2>Component state changes in React</h2>
+						It's not done automatically as in HTML.
 
-					Test
+						We need to handle those state changes.
+						<pre><code class="hljs language-jsx" data-line-numbers>import React, { useState } from 'react'
 
-					Test
+const MyComponent = () => {
+  const [value, setValue] = useState()
 
-					Test
+  const handleChange = event => setValue(event.target.value)
 
-					Test
+  return (
+    &ltinput
+			type="text"
+			onChange={handleChange}
+			value={value}
+		/&gt;
+  )
+}
+						</code></pre>
+					</div>
+				</section>
+				<section>
+					<div>
+						<h2>Fancy custom hooks, maybe</h2>
+						<pre><code class="hljs language-jsx jsx" data-line-numbers>import React, { useState } from 'react'
 
-					Test
+const useInput = initialValue => {
+  const [value, setValue] = useState(initialValue)
 
-					Test
+	const onChange = event => setValue(event.target.value)
 
-					Test
+  return {
+    onChange,
+    value,
+  }
+}
 
-					Test
+const MyComponent = () => {
+  const bindInput = useInput()
 
-					Test
-
-					Test
-
+  return (
+    &ltinput
+			type="text"
+			{...bindInput}
+		/&gt;
+  )
+}
+						</code></pre>
+					</div>
 				</section>
 			</div>
 		</div>
@@ -83,6 +129,22 @@
 					{ src: 'plugin/notes/notes.js', async: true }
 				]
 			});
+
+			Reveal.addEventListener('slidechanged', function(event) {
+				if (event.currentSlide.querySelectorAll('.fragment.preload').length > 0) {
+					Reveal.nextFragment();
+				}
+			});
+
+			const checkboxExample = {
+				checkbox: document.getElementById('checkbox-example'),
+				heading: document.getElementById('checkbox-example-heading'),
+				code: document.getElementById('checkbox-example-code')
+			}
+			checkboxExample.checkbox.addEventListener('change', event => {
+				checkboxExample.heading.innerText = 'After user interaction'
+				checkboxExample.code.innerText = `state: ${event.target.checked ? 'checked' : 'unchecked'}`
+			})
 		</script>
 	</body>
 </html>
