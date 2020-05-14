@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/moon.css">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/monokai-sublime.css">
@@ -85,7 +86,7 @@ const MyComponent = () => {
 				<section>
 					<div>
 						<h2>Fancy custom hooks, maybe</h2>
-						<pre><code class="hljs language-jsx jsx" data-line-numbers>import React, { useState } from 'react'
+						<pre><code class="hljs language-jsx" data-line-numbers>import React, { useState } from 'react'
 
 const useInput = initialValue => {
   const [value, setValue] = useState(initialValue)
@@ -124,9 +125,298 @@ const MyComponent = () => {
 				</section>
 				<section>
 					<h2>What about complex cases?</h2>
-					<div class="browser">
-						<iframe src="html-demos/user-login.html"></iframe>
+				</section>
+				<section data-transition="none">
+					<div class="browser adjust">
+						<img src="img/login-example/login-1.svg" />
 					</div>
+				</section>
+				<section data-transition="none">
+					<div class="browser adjust">
+						<img src="img/login-example/login-2.svg" />
+					</div>
+				</section>
+				<section data-transition="none">
+					<div class="browser adjust">
+						<img src="img/login-example/login-3.svg" />
+					</div>
+				</section>
+				<section data-transition="none">
+					<div class="browser adjust">
+						<img src="img/login-example/login-4.svg" />
+					</div>
+				</section>
+				<section data-transition="none">
+					<div class="browser adjust">
+						<img src="img/login-example/login-5.svg" />
+					</div>
+				</section>
+				<section data-transition="none">
+					<div class="browser adjust">
+						<img src="img/login-example/login-6.svg" />
+					</div>
+				</section>
+				<section data-transition="none">
+					<div class="browser adjust">
+						<img src="img/login-example/login-7.svg" />
+					</div>
+				</section>
+				<section data-transition="none">
+					<div class="browser adjust">
+						<img src="img/login-example/login-8.svg" />
+					</div>
+				</section>
+				<section data-transition="none">
+					<div class="browser adjust">
+						<img src="img/login-example/login-9.svg" />
+					</div>
+				</section>
+				<section data-transition="none">
+					<div class="browser adjust">
+						<img src="img/login-example/login-10.svg" />
+					</div>
+				</section>
+				<section data-transition="none">
+					<div class="browser adjust">
+						<img src="img/login-example/login-11.svg" />
+					</div>
+				</section>
+				<section>
+					<h2>But can we fix this</h2>
+					<ul>
+						<li class="fragment">We can wrap <img class="inline" src="img/all-the-things.png" /> in <code>React.memo()</code>
+							<ul>
+								<li class="fragment">
+									Added boilerplate
+								</li>
+								<li class="fragment">
+									Prop drilling is not nice
+								</li>
+							</ul>
+						</li>
+						<li class="fragment">We can create a custom <code>Context</code></li>
+					</ul>
+				</section>
+				<section>
+					<h2>React Contexts</h2>
+					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>import React, { createContext, useContext, useState } from 'react'
+
+const HiContext = createContext({})
+
+const HiProvider = ({ children }) => {
+  const [name, setName] = useState('')
+  const values = { name, setName }
+  return (
+    &lt;HiContext.Provider value={values}>
+      {children}
+    &lt;/HiContext.Provider>
+  )
+}
+
+const Greeter = () => {
+  const { name } = useContext(HiContext)
+  return (
+    <h2>
+      Hi, {name}!
+    </h2>
+  )
+}
+
+const App = () => {
+  return (
+    &lt;HiProvider>
+      &lt;Greeter />
+    &lt;/HiProvider>
+  )
+}
+</code></pre>
+				</section>
+				<section>
+					<h2>Context has its caveats, too</h2>
+					<div style="text-align: left">
+						<ul>
+							<li class="fragment">
+								Access through hooks gets us tightly coupled components
+							</li>
+							<li class="fragment">
+								They require a complex testing strategy
+							</li>
+							<li class="fragment">
+								Components not easily reusable in other codebases
+							</li>
+						</ul>
+						<ul class="plus fragment">
+							<li>
+								The HOC pattern could probably help here
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section>
+					<h2>HOC Pattern</h2>
+					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>import React, { useContext } from 'react'
+import { HiContext } from './hi-context'
+
+const Greeter = ({ name }) => {
+  return (
+    <h2>
+      Hi, {name}!
+    </h2>
+  )
+}
+
+const GreeterContainer = () => {
+  const { name } = useContext(HiContext)
+  return &lt;Greeter name={name} />
+}
+</code></pre>
+				</section>
+				<section>
+					<h2>Introducing Redux</h2>
+					<ul>
+						<li class="fragment">
+							It allows us to separate the state management logic from the components.
+						</li>
+						<li class="fragment">
+							It can be used from Vanilla JS to different UI libraries, including React.
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Redux Architecture</h2>
+				</section>
+				<section data-transition="none">
+					<img class="inset" src="img/redux-arch/00.svg">
+				</section>
+				<section data-transition="none">
+					<img class="inset" src="img/redux-arch/01.svg">
+				</section>
+				<section data-transition="none">
+					<img class="inset" src="img/redux-arch/02.svg">
+				</section>
+				<section data-transition="none">
+					<img class="inset" src="img/redux-arch/03.svg">
+				</section>
+				<section data-transition="none">
+					<img class="inset" src="img/redux-arch/04.svg">
+				</section>
+				<section data-transition="none">
+					<img class="inset" src="img/redux-arch/05.svg">
+				</section>
+				<section data-transition="none">
+					<img class="inset" src="img/redux-arch/06.svg">
+				</section>
+				<section data-transition="none">
+					<img class="inset" src="img/redux-arch/07.svg">
+				</section>
+				<section data-transition="none">
+					<img class="inset" src="img/redux-arch/08.svg">
+				</section>
+				<section data-transition="none">
+					<img class="inset" src="img/redux-arch/09.svg">
+				</section>
+				<section data-transition="none">
+					<img class="inset" src="img/redux-arch/10.svg">
+				</section>
+				<section>
+					<h2>Redux Architecture</h2>
+					<p>Ultimately, a Redux store exposes</p>
+					<ul>
+						<li class="fragment">
+							<code>dispatch()</code>
+						</li>
+						<li class="fragment">
+							<code>getState()</code>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h2>How did we write Redux Stores so far?</h2>
+					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>// constants.js
+export const SAY_HI = 'SAY_HI'
+
+// actions.js
+import { SAY_HI } from './constants'
+
+export const sayHi = (name) => {
+	return {
+		type: SAY_HI,
+		payload: name,
+	}
+}
+
+// Usage
+import { sayHi } from './actions'
+store.dispatch(sayHi('Pablin'))
+</code></pre>
+					<ul>
+						<li class="fragment">
+							<code>NAMED_CONSTANTS_YELLING_AT_US</code>
+						</li>
+						<li class="fragment">
+							Action creators
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Reducers</h3>
+					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>import { SAY_HI } from './actions'
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case SAY_HI: {
+      const name = action.payload
+      return {
+        ...state,
+        sayHi: {
+          ...state.sayHi,
+          name,
+        },
+      }
+    }
+    default:
+      return state
+  }
+}
+</code></pre>
+				</section>
+				<section>
+					<h2>Selectors</h2>
+					They allow us to read info from the store
+					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>export const getUserName = state => state.sayHi.name
+
+// Usage
+const userName = getUserName(store.getState())</code></pre>
+				</section>
+				<section>
+					<h2>Connecting our store to React</h2>
+					Introducing <code>react-redux</code>
+					<ul>
+						<li class="fragment">
+							Exposes hooks that allow us to read from the Redux Store.
+						</li>
+						<li class="fragment">
+							Exposes a <code>connect</code> HOC that feed the states into our components.
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h2>React-redux's connect</h2>
+					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>import { getUserName } from './selectors'
+import { sayHi } from './actions'
+
+import Greeter from './greeter'
+
+const mapStateToProps = state => {
+  name: getUserName(state)
+}
+
+const mapDispatchToProps = {
+  sayHi,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Greeter)
+</code></pre>
 				</section>
 			</div>
 		</div>

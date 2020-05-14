@@ -301,32 +301,68 @@ blockquote {
 
 code {
   border-radius: 8px;
-  font-family: "Fira Code", monospace !important;
-  line-height: 1.3em;
-  font-size: 0.6em; }
-  code .hljs-ln-line {
-    tab-size: 2;
-    -moz-tab-size: 2; }
+  font-family: "Fira Code", monospace !important; }
+  code:not(.hljs) {
+    background: rgba(255, 255, 255, 0.05);
+    font-size: 0.7em;
+    padding: 6px 8px 2px;
+    color: #e6db74; }
+  code.hljs {
+    line-height: 1.3em;
+    font-size: 0.6em; }
+    code.hljs .hljs-ln-line {
+      tab-size: 2;
+      -moz-tab-size: 2; }
 
 img.inset {
   border-radius: 8px !important;
   border-width: 0px !important; }
 
+img.inline {
+  display: inline-block !important;
+  width: 2ch;
+  margin: 0 !important;
+  border: 1px solid !important;
+  vertical-align: middle; }
+
 .browser {
-  background: url("/img/browser-icons.png") no-repeat #F5F5F5;
+  background: url("/img/browser-icons.png") no-repeat;
   background-size: 69px 28px;
   background-position: 6px 6px;
+  background-color: #23241F;
   padding: 40px 0 0 0;
-  width: 75%;
-  height: 600px;
-  max-height: 50vh;
   display: inline-block;
+  height: 100%;
+  width: 100%;
+  max-height: unset;
   border-radius: 8px 8px 2px 2px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
-  .browser iframe {
+  .browser:not(pre) {
+    background-color: #F5F5F5; }
+  .browser iframe, .browser img {
     background: white;
     border-radius: 2px;
+    border: 0 !important;
+    margin: 0px !important;
     max-height: 100% !important;
     max-width: 100% !important;
     width: calc(100% - 2px);
-    height: calc(100% - 2px); }
+    height: calc(100% - 2px);
+    box-shadow: none !important; }
+
+ul li ul {
+  font-size: 0.7em; }
+
+ul.plus {
+  list-style-type: none !important;
+  margin-left: 2px !important; }
+  ul.plus li:before {
+    content: "";
+    display: inline-block;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path style="fill: green" d="M24 9h-9v-9h-6v9h-9v6h9v9h6v-9h9z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 1ch;
+    width: 1ch;
+    margin-right: 8px; }
