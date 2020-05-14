@@ -765,6 +765,22 @@ const getUsers = createAsyncThunk('users/get',
 					<h2>🎉</h2>
 				</section>
 				<section>
+					<h2>Getting started 🤑</h2>
+					<ol>
+						<li class="fragment">
+							Install the following packages:
+							<pre class="browser"><code class="hljs language-bash">$ yarn add redux @reduxjs/toolkit react-redux reselect
+</code></pre>
+						</li>
+						<li class="fragment">
+							Create <code>src/store/index.js</code> and configure an empty store
+						</li>
+						<li class="fragment">
+							Start creating your slices 🍰
+						</li>
+					</ol>
+				</section>
+				<section>
 					<h2>Conclusions</h2>
 					<ul>
 						<li class="fragment">
@@ -777,10 +793,7 @@ const getUsers = createAsyncThunk('users/get',
 									Create an empty store for each test case
 								</li>
 								<li class="fragment">
-									Dispatch actions
-								</li>
-								<li class="fragment">
-									Test selectors
+									Dispatch actions <code>-></code> test selectors
 								</li>
 							</ul>
 						</li>
@@ -794,7 +807,18 @@ const getUsers = createAsyncThunk('users/get',
 									Test alternative cases by dispatching <code>action.fulfilled</code> and <code>action.rejected</code>
 								</li>
 								<li class="fragment">
-									Async WILL fail at some point. Deal with it.
+									<b>Async can and <u>WILL</u> fail</b> at some point. Deal with it.
+								</li>
+							</ul>
+						</li>
+						<li class="fragment">
+							Some bonus best practices
+							<ul>
+								<li class="fragment">
+									Use <code>createStructuredSelector</code> for <code>mapStateToProps</code>
+								</li>
+								<li class="fragment">
+									Use <code>extraArgument</code> for <code>thunk</code>, to avoid complex mocking in tests.
 								</li>
 							</ul>
 						</li>
