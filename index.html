@@ -28,7 +28,7 @@
 			<div class="slides">
 				<section>
 					<h1>State Management with Redux in 2020</h1>
-					<h2>An introduction to Redux Toolkit</h2>
+					<h3>The past, the present and an introduction to Redux Toolkit</h3>
 					<div class="presented-by">
 						<span>
 							Presented by
@@ -270,6 +270,10 @@ const GreeterContainer = () => {
   return &lt;Greeter name={name} />
 }
 </code></pre>
+					<h3 class="fragment">Cool!</h3>
+				</section>
+				<section>
+					<h2>But what happens with really complex apps?</h2>
 				</section>
 				<section>
 					<h2>Introducing Redux</h2>
@@ -360,7 +364,7 @@ store.dispatch(sayHi('Pablin'))
 				</section>
 				<section>
 					<h3>Reducers</h3>
-					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>import { SAY_HI } from './actions'
+					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>import { SAY_HI } from './constants'
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -396,19 +400,20 @@ const userName = getUserName(store.getState())</code></pre>
 							Exposes hooks that allow us to read from the Redux Store.
 						</li>
 						<li class="fragment">
-							Exposes a <code>connect</code> HOC that feed the states into our components.
+							Exposes a <code>connect</code> HOC that feeds the state into our components.
 						</li>
 					</ul>
 				</section>
 				<section>
 					<h2>React-redux's connect</h2>
-					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>import { getUserName } from './selectors'
+					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>import { connect } from 'react-redux'
+import { getUserName } from './selectors'
 import { sayHi } from './actions'
 
 import Greeter from './greeter'
 
 const mapStateToProps = state => {
-  name: getUserName(state)
+  name: getUserName(state),
 }
 
 const mapDispatchToProps = {
@@ -417,6 +422,387 @@ const mapDispatchToProps = {
 
 export default connect(mapStateToProps, mapDispatchToProps)(Greeter)
 </code></pre>
+					<h3 class="fragment">Awesome!</h3>
+				</section>
+				<section>
+					<h2>Got Async?</h2>
+				</section>
+				<section>
+					<h2>Got Async?</h2>
+					<span class="fragment">Apps have an async nature, although a design principle of Redux is:</span>
+					<blockquote class="fragment">
+						state management should be thought as a synchronous operation
+					</blockquote>
+					<h3 class="fragment">How do we deal with this?</h3>
+				</section>
+				<section>
+					<h2>Thunks</h2>
+					<span class="fragment">
+						<code>Thunk</code> comes from the past participle of <code>think</code>.
+						It's a commonly used term to define external calculations from other frameworks that —by nature— take longer than expected.
+					</span>
+					<br><br>
+					<span class="fragment">Redux supports middlewares. They can intercept, abort and transform dispatches.</span>
+					<br><br>
+					<span class="fragment">It's straightforward to thing of a plugin that adds support for async actions.</span>
+				</section>
+				<section>
+					<h2><code>redux-thunk</code></h2>
+					It allows us to perform multiple dispatches within one action.
+					<br>
+					Let's take a look to this scenario
+				</section>
+				<section data-transition="none">
+					<img class="inset" src="img/api-call-states/0.svg" />
+				</section>
+				<section data-transition="none">
+					<img class="inset" src="img/api-call-states/1.svg" />
+				</section>
+				<section data-transition="none">
+					<img class="inset" src="img/api-call-states/2.svg" />
+				</section>
+				<section data-transition="none">
+					<img class="inset" src="img/api-call-states/3.svg" />
+				</section>
+				<section>
+					<h2>Translating API Calls into Actions</h2>
+					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>import API from '../lib/api'
+
+export const GET_USERS_LOADING = 'GET_USERS_LOADING'
+export const GET_USERS_SUCCESS = 'GET_USERS_SUCCESS'
+export const GET_USERS_ERROR = 'GET_USERS_ERROR'
+
+const getUsersLoading = () => ({
+  type: GET_USERS_LOADING
+})
+
+const getUsersSuccess = users => ({
+  type: GET_USERS_SUCCESS,
+  payload: users,
+})
+
+const getUsersError = error => ({
+  type: GET_USERS_ERROR,
+  payload: error,
+})
+
+export const getUsers = () => (dispatch, getState) => {
+  dispatch(getUsersLoading())
+  API.getUsers()
+    .then(response => {
+      dispatch(getUsersSuccess(response.users))
+    })
+    .catch(error => {
+      dispatch(getUsersError(error))
+    })
+}
+
+// Usage
+store.dispatch(getUsers())
+</code></pre>
+				</section>
+				<section>
+					<h2>Reducer</h2>
+					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>import {
+  GET_USERS_LOADING,
+  GET_USERS_SUCCESS,
+  GET_USERS_ERROR,
+} from './constants'
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case GET_USERS_LOADING: {
+      return {
+        ...state,
+        users: {
+          ...state.users,
+          loading: true,
+          error: false,
+        },
+      }
+    }
+    case GET_USERS_SUCCESS: {
+      const allUsers = action.payload
+      return {
+        ...state,
+        users: {
+          ...state.users,
+          loading: false,
+          error: false,
+          allUsers,
+        },
+      }
+    }
+    case GET_USERS_ERROR: {
+      return {
+        ...state,
+        users: {
+          ...state.users,
+          loading: false,
+          error: true,
+        },
+      }
+    }
+    default:
+      return state
+  }
+}
+</code></pre>
+				</section>
+				<section data-background="img/one-eternity-later.jpg">
+				</section>
+				<section>
+					<h1>Introducing:<br>
+					<code>Redux Toolkit</code></h1>
+				</section>
+				<section>
+					<h2>We've all been there</h2>
+					<ul>
+						<li class="fragment">
+							Lack of consensus on how to deal with async states.
+						</li>
+						<li class="fragment">
+							Adding small changes end up in huge PRs.
+						</li>
+						<li class="fragment">
+							When starting from scratch:
+							<ul>
+								<li class="fragment">Boilerplate can be dangerous</li>
+								<li class="fragment">Implementing a new store is boring and slow</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Why Redux Toolkit is nice</h2>
+					<ul>
+						<li class="fragment">
+							It bakes in <code>redux-thunk</code>
+						</li>
+						<li class="fragment">
+							Includes support for Redux Dev Tools in <code>env !== PROD</code>
+						</li>
+						<li class="fragment">
+							Uses <code>immer.js</code> to allow state mutations
+						</li>
+						<li class="fragment">
+							It's convenient functions are sugar, and spice, and everything nice.
+						</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Goodies</h2>
+					<h3 class="fragment"><code>createAction</code> & <code>createReducer</code></h3>
+					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>import {
+  createAction,
+  createReducer
+} from '@reduxjs/toolkit'
+
+const increment = createAction('increment')
+const decrement = createAction('decrement')
+
+const initialState = {
+  counter: 0,
+}
+
+const reducer = createReducer(initialState, {
+  [increment]: (state, payload) => {
+    state.counter += payload
+  },
+  [decrement]: (state, payload) => {
+    state.counter -= payload
+  },
+})
+
+// Usage
+store.dispatch(increment(10))
+</code></pre>
+				</section>
+				<section>
+					<h2>Still feeling cluttered?</h2>
+					<h3 class="fragment"><code>createSlice</code></h3>
+					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>import {
+  createSlice,
+} from '@reduxjs/toolkit'
+
+const reducer = createSlice({
+  initialState: {
+    counter: 0,
+  },
+  reducers: {
+    increment: (state, payload) => {
+      state.counter += payload
+    },
+    decrement: (state, payload) => {
+      state.counter -= payload
+    }
+  },
+})
+
+export const { increment, decrement } = reducer.actions
+
+// Usage
+store.dispatch(increment(10))
+</code></pre>
+				</section>
+				<section>
+					<h2>Now what about async thunks</h2>
+					<h3 class="fragment"><code>createAsyncThunk</code></h3>
+					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>import {
+  createAsyncThunk,
+  createSlice,
+} from '@reduxjs/toolkit'
+
+const getUserData = createAsyncThunk('users/getUserData', async () => {
+  const apiResponse = await API.getUserData()
+  return apiResponse.data
+})
+
+const usersSlice = createSlice({
+	name: 'users',
+  initialState: {
+    current: {
+      loading: false,
+      error: false,
+      allUsers: null,
+    },
+  },
+  extraReducers: {
+    [getUsers.pending]: state => {
+      state.current.loading = true
+      state.current.error = false
+      state.current.allUsers = null
+    },
+    [getUsers.fulfilled]: (state, payload) => {
+      state.current.loading = false
+      state.current.info = payload
+    },
+    [getUsers.rejected]: state => {
+      state.current.loading = false
+      state.current.error = true
+    },
+  }
+})
+export default usersSlice
+
+// Usage
+store.dispatch(getUsers())
+</code></pre>
+				</section>
+				<section>
+					<h2>Putting it all together</h2>
+					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>import { combineReducers } from 'redux'
+import { configureStore } from '@reduxjs/toolkit'
+import user from './user'
+
+const rootReducer = combineReducers({
+  [user.name]: user.reducer,
+  {...otherReducersYouMightHave},
+})
+
+const initializeStore = () =>
+  configureStore({
+    reducer: rootReducer,
+  })
+
+export default initializeStore
+
+
+
+// Usage
+import { Provider } from 'react-redux'
+import initializeStore from './store'
+
+const store = initializeStore()
+
+const App = () => (
+  &lt;Provider store={store}>
+    &lt;Greeter />
+  &lt;/Provider>
+)
+</code></pre>
+				</section>
+				<section>
+					<h2>
+						Thunk arguments
+					</h2>
+					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
+
+// rootReducer defined
+
+const initializeStore = api =>
+  configureStore({
+    reducer: rootReducer,
+    middleware: [
+      ...getDefaultMiddleware({
+        thunk: {
+          extraArgument: { API: api },
+        },
+      }),
+    ],
+  })
+
+export default initializeStore
+
+// Usage
+
+const getUsers = createAsyncThunk('users/get',
+  (
+    params,
+    { dispatch, getState, extra: { API } },
+  ) => {
+  return API.getUsers(params)
+})
+</code></pre>
+				</section>
+				<section>
+					<h2>More goodies!</h2>
+					<img class="inset fragment" src="img/not-today-satan.gif" />
+				</section>
+				<section data-background="img/coffee-break.gif"></section>
+				<section>
+					<h1>Demo Time, then!</h1>
+					<h2>🎉</h2>
+				</section>
+				<section>
+					<h2>Conclusions</h2>
+					<ul>
+						<li class="fragment">
+							Testing
+							<ul>
+								<li class="fragment">
+									Think of the store as a black box
+								</li>
+								<li class="fragment">
+									Create an empty store for each test case
+								</li>
+								<li class="fragment">
+									Dispatch actions
+								</li>
+								<li class="fragment">
+									Test selectors
+								</li>
+							</ul>
+						</li>
+						<li class="fragment">
+							Thunks
+							<ul>
+								<li class="fragment">
+									Test the happy path, dispatching the action
+								</li>
+								<li class="fragment">
+									Test alternative cases by dispatching <code>action.fulfilled</code> and <code>action.rejected</code>
+								</li>
+								<li class="fragment">
+									Async WILL fail at some point. Deal with it.
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section data-background="img/75-years-later.jpg"></section>
+				<section>
+					<h1>Thank you</h1>
 				</section>
 			</div>
 		</div>
