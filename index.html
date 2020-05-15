@@ -258,7 +258,7 @@ const App = () => {
 					<pre class="browser fragment"><code class="hljs language-jsx" data-line-numbers>import React, { useContext } from 'react'
 import { HiContext } from './hi-context'
 
-const Greeter = ({ name }) => {
+export const Greeter = ({ name }) => {
   return (
     <h2>
       Hi, {name}!
@@ -266,16 +266,35 @@ const Greeter = ({ name }) => {
   )
 }
 
-const GreeterContainer = () => {
-  const { name } = useContext(HiContext)
-  return &lt;Greeter name={name} />
+const injectName = Component => {
+  const WrappedComponent = props => {
+    const { name } = useContext(HiContext);
+
+    return &lt;Component name={name} {...props} />;
+  }
+
+  return WrappedComponent;
 }
+
+export default injectName(Greeter)
 </code></pre>
 					<h3 class="fragment">Convenient!</h3>
 				</section>
 				<section>
 					<h2>But what happens with really complex apps?</h2>
+					<ul>
+						<li class="fragment">
+							We are not escaping from boilerplate here
+						</li>
+						<li class="fragment">
+							Fetching specific props inside nested objects can get tricky
+						</li>
+						<li class="fragment">
+							We could research the fancy new <code>useReducer</code> recently introduced by React
+						</li>
+					</ul>
 				</section>
+				<section data-background="img/cat-chilling.gif"></section>
 				<section>
 					<h2>Introducing Redux</h2>
 					<ul>
