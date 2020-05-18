@@ -626,10 +626,10 @@ const initialState = {
 }
 
 const reducer = createReducer(initialState, {
-  [increment]: (state, payload) => {
+  [increment]: (state, { payload }) => {
     state.counter += payload
   },
-  [decrement]: (state, payload) => {
+  [decrement]: (state, { payload }) => {
     state.counter -= payload
   },
 })
@@ -651,10 +651,10 @@ const reducer = createSlice({
     counter: 0,
   },
   reducers: {
-    increment: (state, payload) => {
+    increment: (state, { payload }) => {
       state.counter += payload
     },
-    decrement: (state, payload) => {
+    decrement: (state, { payload }) => {
       state.counter -= payload
     }
   },
@@ -694,7 +694,7 @@ const usersSlice = createSlice({
       state.current.error = false
       state.current.info = null
     },
-    [getUsers.fulfilled]: (state, payload) => {
+    [getUsers.fulfilled]: (state, { payload }) => {
       state.current.loading = false
       state.current.info = payload
     },
