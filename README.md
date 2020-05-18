@@ -16,8 +16,8 @@ For the demo project, go to https://github.com/PabloMDiez/redux-toolkit-workshop
 - How we’ve dealt with async so far (thunks explanation)
 - Introducing Redux Toolkit
 - Why is it nice and what does it solve
-- Overview through createAction, createReducer and createSlice
-- Async handling: createAsyncThunk
+- Overview through `createAction`, `createReducer` and `createSlice`
+- Async handling: `createAsyncThunk`
 - Putting our store together
 - Using extraArguments for our thunks (ie. configurable API instance)
 - Code demo
